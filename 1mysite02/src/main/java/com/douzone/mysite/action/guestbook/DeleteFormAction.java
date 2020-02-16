@@ -13,6 +13,11 @@ public class DeleteFormAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+		
+		String no = request.getParameter("no");
+		
+		request.setAttribute("no", no);
+		
 		WebUtil.forward("/WEB-INF/views/guestbook/deleteform.jsp", request, response);
 		
 	}

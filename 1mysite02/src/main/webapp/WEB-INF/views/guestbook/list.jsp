@@ -1,10 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="com.douzone.mysite.vo.GuestbookVo"%>
-<%@ page import="java.util.List"%>
-<%
-	List<GuestbookVo> list = (List<GuestbookVo>)request.getAttribute("list");
-%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
 
 <!DOCTYPE html>
 <html>
@@ -38,27 +37,23 @@
 				</form>
 				<ul>
 					<li>
-						<%
-							int count = list.size();
-							for (GuestbookVo vo : list) {
-						%>
+						<c:set var='size' value='${fn:length(list) }'></c:set>
+						<c:forEach items='${list }' var='vo' varStatus='status'>	
 						<table>
 							<tr>
-								<td><%=count %></td>
-								<td><%=vo.getName() %></td>
-								<td><%=vo.getRegDate() %></td>
-								<td><a href="${pageContext.request.contextPath }/guestbook?a=deleteform&no=<%=vo.getNo()%>">삭제</a></td>
+								<td>${size - status.index }</td>
+								<td>${vo.name }</td>
+								<td>${vo.regDate }</td>
+								<td><a href="${pageContext.request.contextPath }/guestbook?a=deleteform&no=${vo.no }">삭제</a></td>
 							</tr>
 							<tr>
-								<td colspan=4><%=vo.getContents().replaceAll("\n", "<br>") %>
+								<td colspan=4>${fn:replace(vo.contents, newLine , "<br>") }
 								</td>
 							</tr>
 						</table> 
 						<br>
-						<%
-						count--;
- 							}
- 						%>
+						</c:forEach>
+			
 					</li>
 				</ul>
 			</div>
