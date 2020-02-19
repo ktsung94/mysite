@@ -46,7 +46,7 @@
 							</c:when>
 							<c:otherwise>
 								<td style="text-align:left; padding-left:${25*vo.depth }px">
-									<img src='/1mysite02/assets/images/reply.png'>
+									<img src='/mysite02/assets/images/reply.png'>
 										<a href="${pageContext.servletContext.contextPath }/board?a=view&no=${vo.no }">
 											${vo.title }
 										</a>								
@@ -59,7 +59,7 @@
 						<td>${vo.regDate }</td>
 						<c:choose>
 							<c:when test="${authUser.no eq vo.userNo }">
-								<td><a href="${pageContext.servletContext.contextPath }/board?a=delete&no=${vo.no }" class="del"><img src='/1mysite02/assets/images/recycle.png'></a></td>
+								<td><a href="${pageContext.servletContext.contextPath }/board?a=delete&no=${vo.no }" class="del"><img src='/mysite02/assets/images/recycle.png'></a></td>
 							</c:when>
 							<c:otherwise>
 								<td></td>
