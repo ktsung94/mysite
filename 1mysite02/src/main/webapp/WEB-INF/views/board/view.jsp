@@ -37,7 +37,7 @@
 					</tr>
 				</table>
 				<div class="bottom">
-					<a href="${pageContext.servletContext.contextPath }/board?a=list">글목록</a>
+					<a href="${pageContext.servletContext.contextPath }/board?a=list&page=1">글목록</a>
 					<c:choose>
 						<c:when test="${!empty authUser }">
 							<a href="${pageContext.request.contextPath }/board?a=replyform&no=${vo.no }" id="new-book">답글쓰기</a>
