@@ -30,6 +30,9 @@ public class UserController {
 	public String join(UserVo vo) {
 		System.out.println(vo);
 		userService.join(vo);
+		// 프라이머리키를 가져온다. joinDate는 가져올수없다.
+		// 가져오려면 다시 쿼리문을 짜야함
+		System.out.println(vo);
 		return "redirect:/user/joinsuccess";
 	}
 	
@@ -92,9 +95,9 @@ public class UserController {
 		return "redirect:/user/update";
 	}
 	
-	@ExceptionHandler(Exception.class)
-	public String handleException() {
-		return "error/exception";
-	}
+//	@ExceptionHandler(Exception.class)
+//	public String handleException() {
+//		return "error/exception";
+//	}
 }
 
