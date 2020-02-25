@@ -3,7 +3,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-
+<%
+	pageContext.setAttribute("newLine", "\n");
+%>
 
 <!DOCTYPE html>
 <html>
@@ -18,8 +20,7 @@
 		<jsp:include page="/WEB-INF/views/includes/header.jsp" />
 		<div id="content">
 			<div id="guestbook">
-				<form action="${pageContext.request.contextPath }/guestbook" method="post">
-					<input type="hidden" name="a" value="insert">
+				<form action="${pageContext.request.contextPath }/guestbook/insert" method="post">
 					<table>
 						<tr>
 							<td>이름</td>
@@ -28,7 +29,7 @@
 							<td><input type="password" name="password"></td>
 						</tr>
 						<tr>
-							<td colspan=4><textarea name="content" id="content"></textarea></td>
+							<td colspan=4><textarea name="contents" id="content"></textarea></td>
 						</tr>
 						<tr>
 							<td colspan=4 align=right><input type="submit" VALUE=" 확인 "></td>
@@ -44,13 +45,13 @@
 								<td>${size - status.index }</td>
 								<td>${vo.name }</td>
 								<td>${vo.regDate }</td>
-								<td><a href="${pageContext.request.contextPath }/guestbook?a=deleteform&no=${vo.no }">삭제</a></td>
+								<td><a href="${pageContext.request.contextPath }/guestbook/delete/${vo.no }">삭제</a></td>
 							</tr>
 							<tr>
 								<td colspan=4>${fn:replace(vo.contents, newLine , "<br>") }
 								</td>
 							</tr>
-						</table> 
+						</table>
 						<br>
 						</c:forEach>
 			

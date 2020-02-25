@@ -8,6 +8,7 @@ import java.sql.SQLException;
 
 import org.springframework.stereotype.Repository;
 
+import com.douzone.mysite.exception.UserRepositoryException;
 import com.douzone.mysite.vo.UserVo;
 
 @Repository
@@ -42,7 +43,7 @@ public class UserRepository {
 			count = pstmt.executeUpdate();
 
 		} catch (SQLException e) {
-			System.out.println("error :" + e);
+			throw new UserRepositoryException(e.getMessage());
 		} finally {
 			// 자원 정리
 			try {
@@ -85,7 +86,7 @@ public class UserRepository {
 			count = pstmt.executeUpdate();
 
 		} catch (SQLException e) {
-			System.out.println("error :" + e);
+			throw new UserRepositoryException(e.getMessage());
 		} finally {
 			// 자원 정리
 			try {
@@ -113,7 +114,8 @@ public class UserRepository {
 			String url="jdbc:mysql://192.168.1.109:3307/webdb";
 			conn = DriverManager.getConnection(url, "webdb", "webdb");
 		} catch( ClassNotFoundException e ) {
-			System.out.println( "드러이버 로딩 실패:" + e );
+			throw new UserRepositoryException("드러이버 로딩 실패:" + e );
+
 		} 
 
 		return conn;
@@ -131,9 +133,10 @@ public class UserRepository {
 
 			String sql = "select name, email, password, gender "
 					+ "from user "
-					+ "where no = " + no;
+					+ "where no = ?";
 
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setLong(1, no);
 
 			rs = pstmt.executeQuery();
 
@@ -151,7 +154,7 @@ public class UserRepository {
 				userVo.setGender(gender);
 			}
 		} catch (SQLException e) {
-			System.out.println("error :" + e);
+			throw new UserRepositoryException(e.getMessage());
 		} finally {
 			// 자원 정리
 			try {
@@ -204,7 +207,7 @@ public class UserRepository {
 				userVo.setName(name);
 			}
 		} catch (SQLException e) {
-			System.out.println("error :" + e);
+			throw new UserRepositoryException(e.getMessage());
 		} finally {
 			// 자원 정리
 			try {
