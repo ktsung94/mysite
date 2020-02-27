@@ -37,15 +37,15 @@
 					</tr>
 				</table>
 				<div class="bottom">
-					<a href="${pageContext.servletContext.contextPath }/board?a=list&page=1">글목록</a>
+					<a href="${pageContext.servletContext.contextPath }/board?page=${page }&kwd=${kwd }">글목록</a>
 					<c:choose>
 						<c:when test="${!empty authUser }">
-							<a href="${pageContext.request.contextPath }/board?a=replyform&no=${vo.no }" id="new-book">답글쓰기</a>
+							<a href="${pageContext.request.contextPath }/board/reply/${vo.no }" id="new-book">답글쓰기</a>
 						</c:when>
 					</c:choose>
 					<c:choose>
 						<c:when test="${!empty authUser && authUser.no eq vo.userNo }">
-							<a href="${pageContext.servletContext.contextPath }/board?a=modifyform&no=${vo.no }">글수정</a>
+							<a href="${pageContext.servletContext.contextPath }/board/modify/${vo.no }">글수정</a>
 						</c:when>						
 					</c:choose>
 				</div>

@@ -19,8 +19,8 @@
 		<c:import url="/WEB-INF/views/includes/header.jsp"/>
 		<div id="content">
 			<div id="board">
-				<form id="search_form" action="${pageContext.servletContext.contextPath }/board?a=list&page=1" method="post">
-					<input type="text" id="kwd" name="kwd" value="">
+				<form id="search_form" action="${pageContext.servletContext.contextPath }/board?page=1&kwd=${kwd }" method="get">
+					<input type="text" id="kwd" name="kwd" value="${kwd }">
 					<input type="submit" value="찾기">
 				</form>
 				<table class="tbl-ex">
@@ -39,15 +39,15 @@
 						<c:choose>
 							<c:when test="${vo.depth eq 0 }">
 								<td>
-									<a href="${pageContext.servletContext.contextPath }/board?a=view&no=${vo.no }">
+									<a href="${pageContext.servletContext.contextPath }/board/view/${vo.no }">
 										${vo.title }
 									</a>
 								</td>							
 							</c:when>
 							<c:otherwise>
 								<td style="text-align:left; padding-left:${25*vo.depth }px">
-									<img src='/mysite02/assets/images/reply.png'>
-										<a href="${pageContext.servletContext.contextPath }/board?a=view&no=${vo.no }">
+									<img src='/mysite03/assets/images/reply.png'>
+										<a href="${pageContext.servletContext.contextPath }/board/view/${vo.no }">
 											${vo.title }
 										</a>								
 								</td>	
@@ -58,8 +58,8 @@
 						<td>${vo.hit }</td>
 						<td>${vo.regDate }</td>
 						<c:choose>
-							<c:when test="${authUser.no eq vo.userNo }">
-								<td><a href="${pageContext.servletContext.contextPath }/board?a=delete&no=${vo.no }" class="del"><img src='/mysite02/assets/images/recycle.png'></a></td>
+							<c:when test="${authUser.no eq vo.userNo and not empty authUser }">
+								<td><a href="${pageContext.servletContext.contextPath }/board/delete/${vo.no }" class="del"><img src='/mysite03/assets/images/recycle.png'></a></td>
 							</c:when>
 							<c:otherwise>
 								<td></td>
@@ -76,20 +76,20 @@
 							<c:when test="${page >= 3 }">
 								<c:choose>
 									<c:when test="${page ne 1 }">
-										<li><a href="${pageContext.servletContext.contextPath }/board?a=list&page=${page-1 }">◀</a></li>
+										<li><a href="${pageContext.servletContext.contextPath }/board?page=${page-1 }&kwd=${kwd }">◀</a></li>
 									</c:when>
 									<c:otherwise>
-										<li><a href="${pageContext.servletContext.contextPath }/board?a=list&page=1">◀</a></li>
+										<li><a href="${pageContext.servletContext.contextPath }/board?page=1&kwd=${kwd }">◀</a></li>
 									</c:otherwise>
 								</c:choose>
-								<li><a href="${pageContext.servletContext.contextPath }/board?a=list&page=${page-2 }">${page-2 }</a></li>
-								<li><a href="${pageContext.servletContext.contextPath }/board?a=list&page=${page-1 }">${page-1 }</li>
-								<li class="selected"><a href="${pageContext.servletContext.contextPath }/board?a=list&page=${page }">${page }</a></li>
+								<li><a href="${pageContext.servletContext.contextPath }/board?page=${page-2 }&kwd=${kwd }">${page-2 }</a></li>
+								<li><a href="${pageContext.servletContext.contextPath }/board?page=${page-1 }&kwd=${kwd }">${page-1 }</li>
+								<li class="selected"><a href="${pageContext.servletContext.contextPath }/board?page=${page }&kwd=${kwd }">${page }</a></li>
 								<c:choose>
 									<c:when test="${page <= (size/5) }">
-										<li><a href="${pageContext.servletContext.contextPath }/board?a=list&page=${page+1 }">${page+1 }</li>
-										<li><a href="${pageContext.servletContext.contextPath }/board?a=list&page=${page+2 }">${page+2 }</li>
-										<li><a href="${pageContext.servletContext.contextPath }/board?a=list&page=${page+1 }">▶</a></li>
+										<li><a href="${pageContext.servletContext.contextPath }/board?page=${page+1 }&kwd=${kwd }">${page+1 }</li>
+										<li><a href="${pageContext.servletContext.contextPath }/board?page=${page+2 }&kwd=${kwd }">${page+2 }</li>
+										<li><a href="${pageContext.servletContext.contextPath }/board?page=${page+1 }&kwd=${kwd }">▶</a></li>
 									</c:when>
 									<c:otherwise>
 										<li>${page+1 }</li>
@@ -101,25 +101,25 @@
 							<c:otherwise>
 								<c:choose>
 									<c:when test="${page ne 1 }">
-										<li><a href="${pageContext.servletContext.contextPath }/board?a=list&page=${page-1 }">◀</a></li>
+										<li><a href="${pageContext.servletContext.contextPath }/board?page=${page-1 }&kwd=${kwd }">◀</a></li>
 									</c:when>
 									<c:otherwise>
-										<li><a href="${pageContext.servletContext.contextPath }/board?a=list&page=1">◀</a></li>
+										<li><a href="${pageContext.servletContext.contextPath }/board?page=1&kwd=${kwd }">◀</a></li>
 									</c:otherwise>
 								</c:choose>
 									
 									<c:choose>
-										<c:when test="${page eq 1 }"><li class="selected"><a href="${pageContext.servletContext.contextPath }/board?a=list&page=1">1</a></li></c:when>
-										<c:otherwise><li><a href="${pageContext.servletContext.contextPath }/board?a=list&page=1">1</a></li></c:otherwise>
+										<c:when test="${page eq 1 }"><li class="selected"><a href="${pageContext.servletContext.contextPath }/board?page=1&kwd=${kwd }">1</a></li></c:when>
+										<c:otherwise><li><a href="${pageContext.servletContext.contextPath }/board?page=1&kwd=${kwd }">1</a></li></c:otherwise>
 									</c:choose>
 									<c:choose>
-										<c:when test="${page eq 2 }"><li class="selected"><a href="${pageContext.servletContext.contextPath }/board?a=list&page=2">2</li></c:when>
-										<c:otherwise><li><a href="${pageContext.servletContext.contextPath }/board?a=list&page=2">2</li></c:otherwise>
+										<c:when test="${page eq 2 }"><li class="selected"><a href="${pageContext.servletContext.contextPath }/board?page=2&kwd=${kwd }">2</li></c:when>
+										<c:otherwise><li><a href="${pageContext.servletContext.contextPath }/board?page=2&kwd=${kwd }">2</li></c:otherwise>
 									</c:choose>
-									<li><a href="${pageContext.servletContext.contextPath }/board?a=list&page=3">3</a></li>
-									<li><a href="${pageContext.servletContext.contextPath }/board?a=list&page=4">4</li>
-									<li><a href="${pageContext.servletContext.contextPath }/board?a=list&page=5">5</li>
-									<li><a href="${pageContext.servletContext.contextPath }/board?a=list&page=${page+1 }">▶</a></li>
+									<li><a href="${pageContext.servletContext.contextPath }/board?page=3&kwd=${kwd }">3</a></li>
+									<li><a href="${pageContext.servletContext.contextPath }/board?page=4&kwd=${kwd }">4</li>
+									<li><a href="${pageContext.servletContext.contextPath }/board?page=5&kwd=${kwd }">5</li>
+									<li><a href="${pageContext.servletContext.contextPath }/board?page=${page+1 }&kwd=${kwd }">▶</a></li>
 							</c:otherwise>						
 						</c:choose>
 						
@@ -130,10 +130,10 @@
 				<div class="bottom">
 				<c:choose>
 					<c:when test="${!empty authUser }">
-						<a href="${pageContext.servletContext.contextPath }/board?a=writeform" id="new-book">글쓰기</a>
+						<a href="${pageContext.servletContext.contextPath }/board/write" id="new-book">글쓰기</a>
 					</c:when>
 					<c:otherwise>
-						<a href="${pageContext.request.contextPath }/user?a=loginform" id="new-book">글쓰기</a>
+						<a href="${pageContext.request.contextPath }/user/login" id="new-book">글쓰기</a>
 					</c:otherwise>
 				</c:choose>
 				</div>				

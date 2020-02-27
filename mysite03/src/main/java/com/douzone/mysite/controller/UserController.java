@@ -1,18 +1,15 @@
 package com.douzone.mysite.controller;
 
-import javax.jws.soap.SOAPBinding.Use;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.douzone.mysite.service.UserService;
 import com.douzone.mysite.vo.UserVo;
+import com.douzone.security.Auth;
+import com.douzone.security.AuthUser;
 
 @Controller
 @RequestMapping("/user")
@@ -42,55 +39,35 @@ public class UserController {
 	}
 
 	@RequestMapping(value="/login", method=RequestMethod.GET)
-	public String login() {
-		
+	public String login() {		
 		return "user/login";
 	}
 
 	@RequestMapping(value="/login", method=RequestMethod.POST)
-	public String login(HttpSession session, UserVo vo) {
-		UserVo authUser = userService.getUser(vo);
-		if(authUser == null) {
-			return "user/login";
-		}
-		session.setAttribute("authUser", authUser);
+	public String login(@AuthUser UserVo authUser, UserVo vo) {
 		return "redirect:/";
 	}
 	
-	@RequestMapping(value="/logout")
-	public String login(HttpSession session) {
-		UserVo authUser = (UserVo)session.getAttribute("authUser");
-		if(authUser == null) {
-			return "redirect;/";
-		}
-		
-		session.removeAttribute("authUser");
-		session.invalidate();
-		return "redirect:/";
-	}
-	
+	@Auth
 	@RequestMapping(value="/update", method=RequestMethod.GET)
-	public String update(HttpSession session, Model model) {
-		UserVo authUser = (UserVo)session.getAttribute("authUser");
-		if(authUser == null) {
-			return "redirect;/";
-		}
-		
+	public String update(@AuthUser UserVo authUser, Model model) {
+		//UserVo authUser = (UserVo)session.getAttribute("authUser");
 		Long no = authUser.getNo();
-		UserVo vo = userService.getUser(no);
+		UserVo userVo = userService.getUser(no);
 		
-		model.addAttribute("vo", vo);
+		model.addAttribute("userVo", userVo);
 		
 		return "user/update";
 	}
 	
-	
+	@Auth
 	@RequestMapping(value="/update", method=RequestMethod.POST)
-	public String update(HttpSession session, UserVo userVo) {
-		UserVo authUser = (UserVo)session.getAttribute("authUser");
-		if(authUser == null) {
-			return "redirect;/";
-		}
+	public String update(@AuthUser UserVo authUser, UserVo userVo) {
+		
+		userVo.setNo(authUser.getNo());
+		userService.updateUser(userVo);
+		
+		authUser.setName(userVo.getName());
 		
 		return "redirect:/user/update";
 	}

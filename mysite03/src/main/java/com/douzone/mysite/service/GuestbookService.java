@@ -31,4 +31,5 @@ public class GuestbookService {
 	public boolean delete(Long no, String password) {
 		return guestbookRepository.delete(no, password);		
 	}	
+	
 }

@@ -24,55 +24,6 @@ public class UserRepository {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	public int update(UserVo vo) {
-		int count = 0;
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		String sql = null;
-		try {
-			conn = dataSource.getConnection();
-
-			if("".equals(vo.getPassword())) {
-				sql = "update user "
-						+ "set name = ?, gender = ? "
-						+ "where no=" + vo.getNo();
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, vo.getName());
-				pstmt.setString(2, vo.getGender());
-			}
-			else {
-				sql = "update user "
-						+ "set name = ?, password = ?, gender = ? "
-						+ "where no=" + vo.getNo();
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, vo.getName());
-				pstmt.setString(2, vo.getPassword());
-				pstmt.setString(3, vo.getGender());
-			}
-
-			count = pstmt.executeUpdate();
-
-		} catch (SQLException e) {
-			throw new UserRepositoryException(e.getMessage());
-		} finally {
-			// 자원 정리
-			try {
-				if (pstmt != null) {
-					pstmt.close();
-				}
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-
-		return count;
-	}
-
-
-
 	public int insert(UserVo vo) {
 		return sqlSession.insert("user.insert", vo);
 	}
@@ -92,5 +43,17 @@ public class UserRepository {
 		map.put("p", password);
 		return sqlSession.selectOne("user.findByEmailAndPassword", map);
 
+	}
+	
+	public int update(UserVo userVo) {
+//		int count = 0;
+//		if("".equals(userVo.getPassword())) {
+//			count = sqlSession.update("user.update1");
+//		}
+//		else {
+//			count = sqlSession.update("user.update2");
+//		}
+		int count = sqlSession.update("user.update", userVo);
+		return count;
 	}
 }
