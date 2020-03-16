@@ -20,7 +20,7 @@
 		<jsp:include page="/WEB-INF/views/includes/header.jsp" />
 		<div id="content">
 			<div id="guestbook">
-				<form action="${pageContext.request.contextPath }/guestbook/insert" method="post">
+				<form action="c/guestbook/insert" method="post">
 					<table>
 						<tr>
 							<td>이름</td>
