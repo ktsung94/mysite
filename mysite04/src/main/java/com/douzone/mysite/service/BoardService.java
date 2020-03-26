@@ -13,7 +13,7 @@ public class BoardService {
 
 	@Autowired
 	private BoardRepository boardRepository;
-	
+
 	public List<BoardVo> getList(String kwd) {
 		return boardRepository.findAll(kwd);
 	}
@@ -24,11 +24,11 @@ public class BoardService {
 
 	public BoardVo findByNo(Long no) {
 		BoardVo boardVo = boardRepository.findNo( no );
-		
+
 		if( boardVo != null ) {
 			boardRepository.updateHit( no );
 		}
-		
+
 		return boardVo;
 	}
 
@@ -40,7 +40,12 @@ public class BoardService {
 		return boardRepository.delete(no);
 	}
 
-	public void replyBoard(BoardVo vo, Long no) {
-				
+	public boolean updateOno(BoardVo vos) {
+		return boardRepository.updateOno(vos);		
 	}
+
+	public boolean insertReply(BoardVo vo) {
+		return boardRepository.insertReply(vo);
+	}
+
 }

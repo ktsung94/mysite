@@ -24,93 +24,14 @@ public class BoardRepository {
 	public boolean insert(BoardVo vo) {		
 		return sqlSession.insert("board.insert", vo) == 1;		
 	}
-	
-	public boolean insertReply(BoardVo vo, int gNo, int oNo, int depth) {
-		boolean result = false;
-
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-
-		try {
-			conn = getConnection();
-
-			String sql = "insert into board values (null, ?, ?, 0, now(), ?, ?+1, ?+1, ?)";
-			pstmt = conn.prepareStatement(sql);
-
-			pstmt.setString(1, vo.getTitle());
-			pstmt.setString(2, vo.getContents());
-			pstmt.setInt(3, gNo);
-			pstmt.setInt(4, oNo);
-			pstmt.setInt(5, depth);
-			pstmt.setLong(6, vo.getUserNo());
-
-			int count = pstmt.executeUpdate();
-			result = count == 1;
-
-		} catch (SQLException e) {
-			System.out.println("Error : " + e);
-		} finally {
-			try {
-				if (pstmt != null) {
-					pstmt.close();
-				}
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-
-		return result;
-
-	}
-	
+		
 	public boolean delete(long no) {
 		return sqlSession.delete("board.delete", no) == 1;		
 	}
 	
 	public int update(BoardVo vo) {
 		return sqlSession.update("board.modify", vo);
-	}
-	
-	
-	public int updateOno(int gNo, int oNo) {
-		int result = 0;
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		String sql = null;
-		try {
-			conn = getConnection();
-
-			sql = "update board "
-					+ "set o_no = o_no + 1 "
-					+ "where g_no = ? and o_no > ?";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, gNo);
-			pstmt.setInt(2, oNo);
-
-			result = pstmt.executeUpdate();
-
-		} catch (SQLException e) {
-			System.out.println("error :" + e);
-		} finally {
-			// 자원 정리
-			try {
-				if (pstmt != null) {
-					pstmt.close();
-				}
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-
-		return result;		
-	}
-		
+	}		
 	
 	public int updateHit(Long no) {
 		return sqlSession.update("board.updateHit", no);
@@ -126,24 +47,14 @@ public class BoardRepository {
 		return list;			
 	}
 
-	
-
-	private Connection getConnection() throws SQLException {
-		Connection conn = null;
-
-		try {
-			//1. 드라이버 로딩
-			Class.forName( "org.mariadb.jdbc.Driver" );
-
-			//2. 연결하기
-			String url="jdbc:mysql://192.168.1.109:3307/webdb";
-			conn = DriverManager.getConnection(url, "webdb", "webdb");
-		} catch (ClassNotFoundException e) {
-			System.out.println("드라이버 로딩 실패:" + e);
-		} 
-
-		return conn;
+	public boolean updateOno(BoardVo vos) {
+		return sqlSession.update("board.updateOno", vos) == 1;
 	}
+
+	public boolean insertReply(BoardVo vo) {
+		return sqlSession.insert("board.insertReply", vo) == 1;
+	}
+
 
 
 }
