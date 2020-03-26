@@ -7,15 +7,14 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.douzone.mysite.service.BoardService;
-import com.douzone.mysite.service.UserService;
 import com.douzone.mysite.vo.BoardVo;
-import com.douzone.mysite.vo.GuestbookVo;
 import com.douzone.mysite.vo.UserVo;
 import com.douzone.security.Auth;
 import com.douzone.security.AuthUser;
@@ -95,14 +94,26 @@ public class BoardController {
 	// reply도 @auth사용가능
 	@Auth
 	@RequestMapping(value="/reply/{no}", method=RequestMethod.GET)
-	public String reply(@AuthUser UserVo authUser) {
+	public String reply(@AuthUser UserVo authUser, @PathVariable( "no" ) Long no, Model model) {
+		model.addAttribute( "no", no );
+		System.out.println("get");
 		return "board/reply";
 	}
 
 	@Auth
 	@RequestMapping(value="/reply/{no}", method=RequestMethod.POST)
-	public String reply(@AuthUser UserVo authUser, @PathVariable( "no" ) Long no, BoardVo vo) {
-		boardService.replyBoard(vo, no);
+	public String reply(@AuthUser UserVo authUser, @PathVariable( "no" ) Long no, @ModelAttribute BoardVo vo) {
+		System.out.println("post");
+		// 게시글
+		BoardVo vos = boardService.findByNo(no);
+		// gNo, oNo 업데이트
+		boardService.updateOno(vos);		
+		// 답글추가
+		vo.setUserNo(authUser.getNo());
+		vo.setDepth(vos.getDepth());
+		vo.setgNo(vos.getgNo());
+		vo.setoNo(vos.getoNo());
+		boardService.insertReply(vo);
 		System.out.println("replypost");
 		return "redirect:/board";
 	}

@@ -28,6 +28,12 @@
 		insert into board values (null, #{title }, #{contents }, 0, now(), ifnull((select max(a.g_no) from board a), 0)+1, 1, 0, #{userNo })
 		]]>	
 	</insert>
+	
+	<insert id="insertReply" parameterType="boardvo">
+		<![CDATA[
+		insert into board values (null, #{title}, #{contents}, 0, now(), #{gNo}, #{oNo}+1, #{depth}+1, #{userNo})
+		]]>	
+	</insert>
 
 	<select id="findNo" resultType="boardvo">
 		<![CDATA[
@@ -42,6 +48,14 @@
 			update board
 			set hit = hit + 1
 			where no = #{no}
+		]]>
+	</update>
+	
+	<update id="updateOno" parameterType="boardvo">
+		<![CDATA[
+			update board
+			set o_no = o_no + 1
+			where g_no = #{gNo} and o_no > #{oNo}
 		]]>
 	</update>
 

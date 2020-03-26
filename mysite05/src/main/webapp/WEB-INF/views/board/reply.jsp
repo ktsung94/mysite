@@ -15,11 +15,8 @@
 		<c:import url="/WEB-INF/views/includes/header.jsp"/>
 		<div id="content">
 			<div id="board">
-				<form class="board-form" method="post" action="${pageContext.servletContext.contextPath }/board/reply/${vo.no}">
-					<input type = "hidden" name = "userNo" value="${authUser.no }">
-					<input type = "hidden" name = "gNo" value="${vo.gNo }">
-					<input type = "hidden" name = "oNo" value="${vo.oNo }">
-					<input type = "hidden" name = "depth" value="${vo.depth }">
+				<form class="board-form" method="post" action="${pageContext.servletContext.contextPath }/board/reply/${no}">
+
 					<table class="tbl-ex">
 						<tr>
 							<th colspan="2">답글쓰기</th>
