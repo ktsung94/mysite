@@ -63,7 +63,7 @@
    </bean>
    
    <!-- mvc resources -->
-   <mvc:resources location="file:D:\mysite-upload/" mapping="/images/**" />
+   <mvc:resources location="file:/mysite-upload/" mapping="/images/**" />
    
    <!-- ViewResolver 설정 --> 
    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
