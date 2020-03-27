@@ -16,7 +16,7 @@ import com.douzone.mysite.vo.SiteVo;
 @Service
 public class SiteService {
 
-	private static final String SAVE_PATH = "D:\\mysite-upload";
+	private static final String SAVE_PATH = "/mysite-upload";
 	private static final String URL = "/images";
 
 	@Autowired
