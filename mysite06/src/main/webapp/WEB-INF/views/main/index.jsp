@@ -17,7 +17,15 @@
 		<div id="wrapper">
 			<div id="content">
 				<div id="site-introduction">
-					<img id="profile" src="${pageContext.servletContext.contextPath }${siteVo.profile}" style="width:150px">
+					<c:choose>
+						<c:when test="${siteVo.profile eq null}">
+							<img id="profile" src="${pageContext.servletContext.contextPath }/assets/images/나.jpg" style="width:150px">
+						</c:when>
+						<c:otherwise>
+							<img id="profile" src="${pageContext.servletContext.contextPath }${siteVo.profile}" style="width:150px">
+						</c:otherwise>
+					</c:choose>
+					
 					<h2>${siteVo.welcomeMessage }</h2>
 					<p>
 						${siteVo.description }<br><br>
