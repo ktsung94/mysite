@@ -40,4 +40,8 @@ public class UserRepository {
 		int count = sqlSession.update("user.update", userVo);
 		return count;
 	}
+
+	public UserVo find(String email) {
+		return sqlSession.selectOne("user.findByEmail", email);
+	}
 }
