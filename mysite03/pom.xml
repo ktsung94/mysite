@@ -149,8 +149,6 @@
 			<version>1.2.0</version>
 		</dependency>
 
-
-
 		<!-- Common DBCP -->
 		<dependency>
 			<groupId>commons-dbcp</groupId>
@@ -158,6 +156,12 @@
 			<version>1.4</version>
 		</dependency>
 
+		<!-- jackson -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.9.8</version>
+		</dependency>
 
 	</dependencies>
 
