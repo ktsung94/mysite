@@ -4,7 +4,7 @@
 
 	<select id="findAll" resultType="guestbookvo">
 		<![CDATA[
-		select name, contents, password, date_format(reg_date, '%Y-%m-%d %h:%i:%s') as regDate
+		select no, name, contents, password, date_format(reg_date, '%Y-%m-%d %h:%i:%s') as regDate
 		from guestbook
 		order by no desc
 		]]>	

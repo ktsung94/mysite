@@ -105,6 +105,10 @@ public class GuestbookRepository {
 		System.out.println(totalTime);
 		return list;		
 	}
+	
+	public List<GuestbookVo> findAll(Long startNo) {
+		return sqlSession.selectList("guestbook.findAllByNo", startNo);
+	}
 
 
 	private Connection getConnection() throws SQLException {
@@ -122,5 +126,9 @@ public class GuestbookRepository {
 		} 
 
 		return conn;
+	}
+
+	public int delete(GuestbookVo vo) {
+		return sqlSession.delete("guestbook.delete", vo);
 	}
 }
