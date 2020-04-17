@@ -46,7 +46,11 @@ public class GuestbookController {
 		if(guestbookService.delete(no, password))
 			return "redirect:/guestbook/list";
 		else
-			return "guestbook/delete/no";
+			return "guestbook/delete";
 	}
 	
+	@RequestMapping( "/spa" )
+	public String indexSpa( Model model ){
+		return "guestbook/index-spa";
+	}
 }

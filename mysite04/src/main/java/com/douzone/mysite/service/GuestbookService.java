@@ -23,13 +23,12 @@ public class GuestbookService {
 		return guestbookRepository.findAll();
 	}
 
-	public void delete(GuestbookVo vo) {
-		// TODO Auto-generated method stub
-		
+	public boolean delete(Long no, String password) {
+		return 1== guestbookRepository.delete(new GuestbookVo(no, password));		
 	}
 
-	public boolean delete(Long no, String password) {
-		return guestbookRepository.delete(no, password);		
+	public List<GuestbookVo> getMessageList(Long startNo) {
+		return guestbookRepository.findAll(startNo);		
 	}	
 	
 }
