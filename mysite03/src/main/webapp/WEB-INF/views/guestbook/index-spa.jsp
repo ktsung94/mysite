@@ -159,7 +159,7 @@ $(function(){
 			$("#password-delete").val("");
 			$("#dialog-delete-form p.validateTips.error").hide();
 		}
-	});
+});
 	
 	// 가져오기 버튼 Click 이벤트
 	$('.btn-fetch').click(fetchList);
